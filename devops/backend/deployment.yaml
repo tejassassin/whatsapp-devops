@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whatsapp-backend
+  template:
+    metadata:
+      labels:
+        app: whatsapp-backend
+    spec:
+      containers:
+        - name: whatsapp-backend-container
+          image:  tejamallela/whatsapp-backend:latest # Replace with your Docker image name and tag
+          ports:
+            - containerPort: 8000 # Replace with the port your React app listens on
