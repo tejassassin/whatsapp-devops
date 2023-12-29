@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
     required: true,
   },
   sub: {
-    type: Number,
+    type: String,
     required: true,
   },
   archived: {
