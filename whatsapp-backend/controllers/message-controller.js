@@ -1,12 +1,15 @@
-import messages from "../model/Message.js";
 import conversations from "../model/Conversation.js";
 
 export const newMessage = async (request, response) => {
   try {
-    let newMessage = new messages(request.body);
-    await newMessage.save();
+    console.log(request.body);
     await conversations.findByIdAndUpdate(request.body.conversationId, {
-      message: request.body.text,
+      $push: {
+        messages: {
+          text: request.body.text,
+          type: request.body.type,
+        },
+      },
     });
 
     return response.status(200).json("Message has been sent successfully");

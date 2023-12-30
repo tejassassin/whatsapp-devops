@@ -5,8 +5,8 @@ const conversationSchema = mongoose.Schema(
     members: {
       type: Array,
     },
-    message: {
-      type: String,
+    messages: {
+      type: Array,
     },
   },
   {
