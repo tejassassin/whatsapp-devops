@@ -1,5 +1,4 @@
 import conversations from "../model/Conversation.js";
-import Users from "../model/User.js";
 
 export const newConversation = async (request, response) => {
   try {
@@ -24,6 +23,22 @@ export const newConversation = async (request, response) => {
     newConversation.save();
 
     return response.status(200).json("conversation saved successfully");
+  } catch (error) {
+    return response.status(500).json(error.message);
+  }
+};
+
+export const getConversation = async (request, response) => {
+  const senderId = request.body.senderId;
+  const receiverId = request.body.receiverId;
+  try {
+    const conversation = await conversations.findOne({
+      members: {
+        $all: [senderId, receiverId],
+      },
+    });
+
+    return response.status(200).json(conversation);
   } catch (error) {
     return response.status(500).json(error.message);
   }
