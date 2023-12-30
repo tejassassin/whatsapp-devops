@@ -8,6 +8,9 @@ export const newMessage = async (request, response) => {
         messages: {
           text: request.body.text,
           type: request.body.type,
+          senderId: request.body.senderId,
+          receiverId: request.body.receiverId,
+          timestamp: new Date(),
         },
       },
     });
