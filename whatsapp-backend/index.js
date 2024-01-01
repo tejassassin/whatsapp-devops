@@ -1,19 +1,16 @@
-import express from "express";
-import route from "./routes/route.js";
-import connection from "./db.js";
-
+import express, { request } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import  connection  from "./db.js";
 
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use("/", route);
 
 connection();
 
 const PORT = 8000;
 
-app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+app.listen(PORT, () => console.log(`backend server is running on ${PORT}`));
