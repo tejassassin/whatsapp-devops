@@ -3,12 +3,14 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import  connection  from "./db.js";
 import { get } from "mongoose";
+import route from "./routes/route.js";
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/", route);
 
 connection();
 
@@ -26,7 +28,7 @@ app.listen(PORT, () => console.log(`backend server is running on ${PORT}`));
 
 
 // Login : 
-// we filter out useful data 
+// Step 1: we filter out useful data 
 // and send an API request to the backend with the user information with the help of axios library
 
 // backkend : will take the data and add it in the database
@@ -40,6 +42,7 @@ app.listen(PORT, () => console.log(`backend server is running on ${PORT}`));
 
 
 //API: application programming interface 
+// You send a request to an API and you get reponse back
 
 
 
