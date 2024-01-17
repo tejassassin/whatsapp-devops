@@ -3,6 +3,7 @@ import Conversations from "../models/conversation.js";
 export const addConversation = async (request, response) => {
   console.log("i am here");
 
+  console.log("Conversation request body");
   console.log(request.body);
 
   try {
@@ -15,14 +16,23 @@ export const addConversation = async (request, response) => {
       },
     });
 
+    console.log("conversation exists");
+    console.log(exists);
+
     if (exists) {
       response.status(200).json("Conversation already exists");
+      return;
     }
 
+    const newConversation = new Conversations({
+      members: [senderId, receiverId],
+    });
 
-    //
+    await newConversation.save();
+    
+    response.status(200).json(newConversation);
 
-
+    // if conversation doesnt exist
   } catch (error) {
     response.status(500).json(error.message);
   }
