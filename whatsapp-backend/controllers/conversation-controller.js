@@ -37,43 +37,41 @@ export const addConversation = async (request, response) => {
 };
 
 export const getConversation = async (request, response) => {
-  // console.log("i am here");
-
-  console.log(request.body);
+  console.log(request.query);
 
   try {
-    //   const senderId = request.body.senderId;
-    //   const receiverId = request.body.receiverId;
-    //   const exists = await Conversations.findOne({
-    //     members: {
-    //       $all: [senderId, receiverId],
-    //     },
-    //   });
-    //   console.log("conversation exists");
-    //   console.log(exists);
-    //   if (exists) {
-    //     response.status(200).json("Conversation already exists");
-    //     return;
-    //   }
-    //   const newConversation = new Conversations({
-    //     members: [senderId, receiverId],
-    //   });
-    //   await newConversation.save();
-    //   response.status(200).json(newConversation);
+    const senderId = request.query.senderId;
+    const receiverId = request.query.receiverId;
+
+    const conversation = await Conversations.findOne({
+      members: {
+        $all: [senderId, receiverId],
+      },
+    });
+    response.status(200).json(conversation);
   } catch (error) {
     response.status(500).json(error.message);
   }
 };
-// request.body =
-// {
-//   senderId: account.sub,
-//   receiverId: user.sub
-// }
 
-// Conversation:
-// {
-//   messages:[],
-//   members:[senderId, receiverID],
-//   createdAt,
-//   updatedAt
-// }
+export const addMessage = async (request, response) => {
+  console.log(request.body);
+
+  try {
+    await Conversations.findByIdAndUpdate(request.body.conversationId, {
+      $push: {
+        messages: {
+          text: request.body.message,
+          type: request.body.type,
+          senderId: request.body.senderId,
+          receiverId: request.body.receiverId,
+          timestamp: request.body.timestamp,
+        },
+      },
+    });
+
+    response.status(200).json("message added");
+  } catch (error) {
+    response.status(500).json(error.message);
+  }
+};
